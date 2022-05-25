@@ -487,5 +487,7 @@ class Fondo(Modelo):
         self.shader.liberar_programa()
 
     def borrar(self):
-        gl.glDeleteVertexArrays(1, self.VAO)
-        gl.glDeleteBuffers(1, self.VBO)
+        #gl.glDeleteVertexArrays(1, self.VAO)
+        #gl.glDeleteBuffers(1, self.VBO)
+
+        

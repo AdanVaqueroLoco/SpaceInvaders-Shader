@@ -40,9 +40,17 @@ class Nave(Modelo):
         else:
             glColor(1.0, 0.0, 0.0)
             
-        glVertex3f(-0.05,-0.05,0)
-        glVertex3f(0.0,0.05,0)
-        glVertex3f(0.05,-0.05,0)
+
+        self.vertices=np.array(
+           [   
+               -0.05,-0.05,0,1.0,    1.0,1.0,1.0,
+               -0.0,0.05,0,1.0,     1.0,1.0,1.0,
+               0.05,-0.05,0,1.0,    1.0,1.0,1.0
+           ], dtype="float32"
+        ) 
+        #glVertex3f(-0.05,-0.05,0)
+        #glVertex3f(0.0,0.05,0)
+        #glVertex3f(0.05,-0.05,0)
 
         glEnd()
         glPopMatrix()

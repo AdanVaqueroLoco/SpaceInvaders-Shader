@@ -23,44 +23,40 @@ class Invasor_cuatro(Modelo):
     activos_enemigos = 1
 
 
-    def __init__(self, x, y, direccion, velocidad):
-        super().__init__(x, y, 0.0, velocidad, direccion)
-        self.extremo_izquierdo=0.05
-        self.extremo_derecho=0.05
-        self.extremo_inferior=0.05
-        self.extremo_superior=0.05
+    def __init__(self,shader, posicion_id, transformaciones_id, color_id):
+        self.extremo_izquierdo = 0.05
+        self.extremo_derecho = 0.05
+        self.extremo_inferior = 0.05
+        self.extremo_superior = 0.05
+        self.posicion = glm.vec3(0.55, 0.55,0.0)
 
+        self.vertices = np.append(self.vertices,
+            np.array(
+                [0.0,0.0,0.0,1.0,  0.72, 0.30,0.30, 1.0], dtype="float32"
+            ))
+        for i in range(0,359,5):
+            self.vertices = np.append(self.vertices,
+                np.array(
+                    [0.055 * math.cos(i * math.pi/180.0),0.055 * math.sin(i * math.pi/180),0.0,1.0,  0.72,0.30,0.30,1.0]
+                , dtype="float32"))
+        
+        super().__init__(shader, posicion_id, transformaciones_id, color_id)
 
-    def actualizar(self, tiempo_delta):
-        if self.vivo:
-            
-            cantidad_movimiento = self.velocidad * tiempo_delta
-            self.posicion_x = self.posicion_x + (math.cos(self.direccion * math.pi / 180.0) * cantidad_movimiento)
-            self.posicion_y = self.posicion_y + (math.sin(self.direccion * math.pi / 180.0) * cantidad_movimiento)
-
-            if self.posicion_x > 1.05:
-                self.posicion_x = -1.0
-            if self.posicion_x < -1.05:
-                self.posicion_x = 1.0
-
-            if self.posicion_y > 1.05:
-                self.posicion_y = -0.6
-            if self.posicion_y < -1.0:
-                self.posicion_y = 1.05
-            
+        self.transformaciones = glm.mat4(1.0)
+        self.transformaciones = glm.translate(self.transformaciones,
+                self.posicion)
             
 
     def dibujar(self):
         if self.vivo:
+            self.shader.usar_programa()
+            gl.glBindVertexArray(self.VAO)
 
-            glPushMatrix()
+            gl.glUniformMatrix4fv(self.transformaciones_id,
+                    1, gl.GL_FALSE, glm.value_ptr(self.transformaciones))
 
-            glTranslatef(self.posicion_x, self.posicion_y, self.posicion_z)
-            glBegin(GL_POLYGON)
-            glColor3f(0.72, 0.30, 0.30)
-            # for angulo in range(0,359,5):                     ##X   ##Tamaño                        ##Altura
-            #     glVertex3f(0.055*math.cos(angulo*math.pi/180),0.055*math.sin(angulo*math.pi/180), 0)
-            glEnd()
-            glPopMatrix()
 
-            self.dibujar_bounding_box() 
+            gl.glDrawArrays(gl.GL_TRIANGLE_STRIP, 0, 4)
+
+            gl.glBindVertexArray(0)
+            self.shader.liberar_programa()
