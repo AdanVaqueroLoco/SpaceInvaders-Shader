@@ -10,6 +10,11 @@ from Fondo import *
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
+invasor_uno = None
+invasor_dos = None
+invasor_tres = None
+invasor_cuatro = None
+invasor_cinco = None
 fondo = None
 modelo = None
 window = None

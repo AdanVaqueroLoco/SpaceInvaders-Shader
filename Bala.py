@@ -40,13 +40,20 @@ class Bala(Modelo):
 
                 glTranslatef(self.posicion_x, self.posicion_y, self.posicion_z)
                 glBegin(GL_QUADS)
-                glColor3f(1.0, 0.0, 0.0)
+                #glColor3f(1.0, 0.0, 0.0)
 
-                glVertex3f(-0.01,0.01,0.0)
-                glVertex3f(0.01,0.01,0.0)
-                glVertex3f(0.01,-0.01,0.0)
-                glVertex3f(-0.01,-0.01,0.0)
-                glEnd()
+                self.vertices=np.array(
+                [   
+                    -0.01,0.01,0,1.0,    1.0,0.0,0.0,
+                    -0.0,0.05,0,1.0,     1.0,0.0,0.0,
+                    0.05,-0.05,0,1.0,    1.0,0.0,0.0
+                ], dtype="float32"
+                ) 
+                #glVertex3f(-0.01,0.01,0.0)
+                #glVertex3f(0.01,0.01,0.0)
+                #glVertex3f(0.01,-0.01,0.0)
+                #glVertex3f(-0.01,-0.01,0.0)
+                #glEnd()
 
                 glPopMatrix()
                 self.dibujar_bounding_box()
