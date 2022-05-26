@@ -56,7 +56,7 @@ class Invasor_cuatro(Modelo):
                     1, gl.GL_FALSE, glm.value_ptr(self.transformaciones))
 
 
-            gl.glDrawArrays(gl.GL_TRIANGLE_STRIP, 0, 4)
+            gl.glDrawArrays(gl.GL_TRIANGLE_STRIP, 8, 74)
 
             gl.glBindVertexArray(0)
             self.shader.liberar_programa()

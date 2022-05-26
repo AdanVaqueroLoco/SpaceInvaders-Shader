@@ -38,25 +38,6 @@ class Invasor_tres(Modelo):
         self.transformaciones = glm.mat4(1.0)
         self.transformaciones = glm.translate(self.transformaciones,
                 self.posicion)
-
-
-    #def actualizar(self, tiempo_delta):
-    #    if self.vivo:
-           
-    #        cantidad_movimiento = self.velocidad * tiempo_delta
-    #        self.posicion_x = self.posicion_x + (math.cos(self.direccion * math.pi / 180.0) * cantidad_movimiento)
-    #        self.posicion_y = self.posicion_y + (math.sin(self.direccion * math.pi / 180.0) * cantidad_movimiento)
-
-    #        if self.posicion_x > 1.05:
-    #            self.posicion_x = -1.0
-    #        if self.posicion_x < -1.05:
-    #            self.posicion_x = 1.0
-
-    #        if self.posicion_y > 1.05:
-    #            self.posicion_y = -0.6
-    #        if self.posicion_y < -1.0:
-    #            self.posicion_y = 1.05
-            
             
 
     def dibujar(self):

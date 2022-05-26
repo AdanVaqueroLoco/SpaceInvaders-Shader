@@ -64,7 +64,7 @@ class Invasor_cinco(Modelo):
                     1, gl.GL_FALSE, glm.value_ptr(self.transformaciones))
 
 
-                gl.glDrawArrays(gl.GL_TRIANGLE_STRIP, 0, 4)
+            gl.glDrawArrays(gl.GL_TRIANGLE_STRIP, 0, 4)
 
-                gl.glBindVertexArray(0)
-                self.shader.liberar_programa()   
+            gl.glBindVertexArray(0)
+            self.shader.liberar_programa()   

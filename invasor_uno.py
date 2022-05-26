@@ -22,10 +22,10 @@ class Invasor_uno(Modelo):
 
         self.vertices = np.array(
             [
-                -0.05, 0.0, 0.0, 1.0,  0.72,0.7,0.3,1.0, 
-                0.0, 0.05, 0.0, 1.0,   0.72,0.7,0.3,1.0,   
-                0.05, 0.0, 0.0, 1.0,   0.72,0.7,0.3,1.0, 
-                0.0, -0.5, 0.0, 1.0,   0.72,0.7,0.3,1.0, 
+                -0.05, 0.05, 0.0, 1.0,  0.3,0.72,0.37,1.0, 
+                0.05, 0.05, 0.0, 1.0,   0.3,0.72,0.37,1.0,  
+                0.05, -0.05, 0.0, 1.0,   0.3,0.72,0.37,1.0, 
+                -0.05, -0.05, 0.0, 1.0,   0.3,0.72,0.37,1.0, 
             ], dtype="float32"
         )
 
@@ -36,67 +36,17 @@ class Invasor_uno(Modelo):
                 self.posicion)
 
 
-#    def actualizar(self, tiempo_delta):
-#        if self.vivo:
-            #cantidad_movimiento = self.velocidad * tiempo_delta
-            #self.posicion_x = self.posicion_x + (math.cos(self.direccion * math.pi / 180.0) * cantidad_movimiento)
-            #self.posicion_y = self.posicion_y + (math.sin(self.direccion * math.pi / 180.0) * cantidad_movimiento)
-            
-            # if glfw.get_time() > 3.0:
-            #     self.activos_enemigos[2] = 1
-            # if glfw.get_time() > 7.0:
-            #     self.activos_enemigos[1] = 1
-
-            # self.contador_tiempo = self.contador_tiempo + tiempo_delta
-            # if self.contador_tiempo >= 1.0:
-            #     self.contador_tiempo = self.contador_tiempo - 1.0
-            #     for i in range(3):
-            #         self.velocidades_enemigos[i] = self.velocidades_enemigos[i] + 0.01
-            # for i in range(3):
-            #     if self.activos_enemigos[i]:
-            #         cantidad_movimiento = self.velocidades_enemigos[i] * tiempo_delta
-            #         if self.direcciones_enemigos[i] == 0:
-            #             self.posiciones_enemigos[i][0] = self.posiciones_enemigos[i][0] - cantidad_movimiento
-            #             if self.posiciones_enemigos[i][0] <= -0.75:
-            #                 self.direcciones_enemigos[i] = 1
-            #         else:
-            #             self.posiciones_enemigos[i][0] = self.posiciones_enemigos[i][0] + (cantidad_movimiento*5)
-            #             self.posiciones_enemigos[i][1] = self.posiciones_enemigos[i][1] - (cantidad_movimiento/2)
-            #             if self.posiciones_enemigos[i][0] >= 0.75:
-            #                 self.direcciones_enemigos[i] = 0
-            #cantidad_movimiento = self.velocidad * tiempo_delta
-            #self.posicion_x = self.posicion_x + (math.cos(self.direccion * math.pi / 180.0) * cantidad_movimiento)
-            #self.posicion_y = self.posicion_y + (math.sin(self.direccion * math.pi / 180.0) * cantidad_movimiento)
-
-            #if self.posicion_x > 1.05:
-            #    self.posicion_x = -1.0
-            #if self.posicion_x < -1.05:
-            #    self.posicion_x = 1.0
-
-            #if self.posicion_y > 1.05:
-            #    self.posicion_y = -0.6
-            #if self.posicion_y < -1.0:
-            #    self.posicion_y = 1.05
-
-
 
     def dibujar(self):
         if self.vivo:
+            self.shader.usar_programa()
+            gl.glBindVertexArray(self.VAO)
 
-            glPushMatrix()
+            gl.glUniformMatrix4fv(self.transformaciones_id,
+                    1, gl.GL_FALSE, glm.value_ptr(self.transformaciones))
 
-            glTranslatef(self.posicion_x, self.posicion_y, self.posicion_z)
-            glBegin(GL_QUADS)
-            glColor3f(0.3, 0.72, 0.37)
-            glVertex3f(-0.05,0.05,0.0)
-            glVertex3f(0.05,0.05,0.0)
-            glVertex3f(0.05,-0.05,0.0)
-            glVertex3f(-0.05,-0.05,0.0)
-            # for i in range(0, 360, 10):
-            #     componente_x=0.07*math.cos(i*math.pi/180.0)
-            #     componente_y=0.07*math.sin(i*math.pi/180.0)
-            #     glVertex3f(componente_x, componente_y, 0.0)
-            glEnd()
-            glPopMatrix()
 
-            self.dibujar_bounding_box() 
+                gl.glDrawArrays(gl.GL_TRIANGLE_STRIP, 0, 4)
+
+                gl.glBindVertexArray(0)
+                self.shader.liberar_programa()   

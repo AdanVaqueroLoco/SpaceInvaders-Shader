@@ -29,31 +29,72 @@ with open('fragment_shader.glsl') as archivo:
 
 def actualizar():
     global window
+    global tiempo_anterior
+    tiempo_actual = glfw.get_time()
+    tiempo_delta = tiempo_actual - tiempo_anterior
     estado_arriba = glfw.get_key(window, glfw.KEY_UP)
     estado_abajo = glfw.get_key(window, glfw.KEY_DOWN)
     estado_derecha = glfw.get_key(window, glfw.KEY_RIGHT)
     estado_izquierda = glfw.get_key(window, glfw.KEY_LEFT)
 
     if estado_arriba == glfw.PRESS:
-        modelo.mover(modelo.ARRIBA)
+        modelo.mover(modelo.ARRIBA, tiempo_delta)
     if estado_abajo == glfw.PRESS:
-        modelo.mover(modelo.ABAJO)
+        modelo.mover(modelo.ABAJO, tiempo_delta)
     if estado_derecha == glfw.PRESS:
-        modelo.mover(modelo.DERECHA)
+        modelo.mover(modelo.DERECHA, tiempo_delta)
     if estado_izquierda == glfw.PRESS:
-        modelo.mover(modelo.IZQUIERDA)
+        modelo.mover(modelo.IZQUIERDA, tiempo_delta)
 
+    if invasor_cinco.colisionando(modelo):
+            bicho.vivo = False
+    if invasor_cuatro.colisionando(modelo):
+            bicho2.vivo = False
+    if invasor_tres.colisionando(modelo):
+            bicho3.vivo = False
+    if invasor_dos.colisionando(modelo):
+            bicho4.vivo = False
+    if invasor_uno.colisionando(modelo):
+            bicho5.vivo = False
+
+    if ((invasor_uno.vivo == False) & (invasor_dos.vivo == False) & (invasor_tres.vivo == False) & (invasor_cuatro.vivo == False) & (invasor_cinco.vivo == False)):
+        glfw.set_window_should_close(window, 1)
+        print("Game over: ganaste")
+
+    if modelo.colisionando(powerUp):
+        modelo.velocidad = modelo.velocidad = 1.6
+
+    tiempo_anterior=tiempo_actual
+
+def colisionando():
+    colisionando=False
+    return colisionando
 
 def dibujar():
     global modelo
+    global invasor_uno
+    global invasor_dos
+    global invasor_tres
+    global invasor_cuatro
+    global invasor_cinco
     global fondo 
     fondo.dibujar()
     modelo.dibujar()
+    invasor_uno.dibujar()
+    invasor_dos.dibujar()
+    invasor_tres.dibujar()
+    invasor_cuatro.dibujar()
+    invasor_cinco.dibujar()
 
 def main():
     global modelo
     global fondo
     global window
+    global invasor_uno
+    global invasor_dos
+    global invasor_tres
+    global invasor_cuatro
+    global invasor_cinco
     glfw.init()
 
     glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR,3)
@@ -86,7 +127,11 @@ def main():
     modelo = Triangulo(shader, 
             posicion_id, color_id, transformaciones_id)
 
-
+    invasor_cinco = invasor_cinco(shader, posicion_id, color_id, transformaciones_id)
+    invasor_cuatro = invasor_cuatro(shader, posicion_id, color_id, transformaciones_id)
+    invasor_tres = invasor_tres(shader, posicion_id, color_id, transformaciones_id)
+    invasor_dos = invasor_dos(shader, posicion_id, color_id, transformaciones_id)
+    invasor_uno = invasor_uno(shader, posicion_id, color_id, transformaciones_id)
 
     #draw loop
     while not glfw.window_should_close(window):
@@ -104,8 +149,11 @@ def main():
     modelo.borrar()
     fondo.borrar()
     shader.borrar()
-
-    
+    invasor_cinco.borrar()
+    invasor_cuatro.borrar()
+    invasor_tres.borrar()
+    invasor_dos.borrar()
+    invasor_uno.borrar()
 
     glfw.terminate()
     return 0
