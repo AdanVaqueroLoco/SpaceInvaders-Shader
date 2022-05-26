@@ -1,4 +1,9 @@
 import OpenGL.GL as gl
+import invasor_cinco
+import invasor_cuatro
+import invasor_tres
+import invasor_dos
+import invasor_uno
 
 class Shader:
     def __init__(self, vertex_shader_source, fragment_shader_source):
